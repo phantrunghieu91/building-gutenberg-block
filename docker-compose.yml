@@ -1,0 +1,27 @@
+services:
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - ${NGINX_PORT}:80
+      - 443:443
+    volumes: 
+      - ./wordpress/:/var/www/html:delegated
+    depends_on: 
+      - php
+
+  database:
+    image: mysql:8.0
+    env_file: .env.db
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  php:
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    volumes:
+      - ./wordpress/:/var/www/html:delegated
+    depends_on: 
+      - database
