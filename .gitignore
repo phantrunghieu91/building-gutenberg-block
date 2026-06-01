@@ -6,6 +6,8 @@
 # Note: if you want to stage/commit WP core files
 # you can delete this whole section/until Configuration.
 nginx/certs/
+mysql
+
 wordpress/wp-admin/
 wordpress/wp-content/index.php
 wordpress/wp-content/languages
