@@ -23,10 +23,7 @@ export default function Edit( {attributes, setAttributes} ) {
 				</PanelBody>
 			</InspectorControls>
 			<p { ...useBlockProps() }>
-				{ __(
-					showStartingYear && startingYear ? `© ${startingYear} - ${currentYear}` : `© ${currentYear}`,
-					'jin-dev'
-				) }
+				{ showStartingYear && startingYear ? `© ${startingYear} - ${currentYear}` : `© ${currentYear}` }
 			</p>
 		</>
 	);
