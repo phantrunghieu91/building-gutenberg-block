@@ -1,14 +1,33 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
-export default function Edit() {
+export default function Edit( {attributes, setAttributes} ) {
+	const { showStartingYear, startingYear } = attributes;
 	const currentYear = new Date().getFullYear().toString();
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				`© ${currentYear}`,
-				'jin-dev'
-			) }
-		</p>
+		<>
+			<InspectorControls>
+				<PanelBody>
+					<ToggleControl 
+						checked={ showStartingYear }
+						label={__('Show starting year', 'jin-dev')}
+						onChange={ () => { setAttributes( { showStartingYear: !showStartingYear} ) }}
+					/>
+					{ showStartingYear && <TextControl 
+						__next40pxDefaultSize
+						value={ startingYear || '' }
+						placeholder={__('Enter year, ex. 2011', 'jin-dev')}
+						onChange={ value => setAttributes( { startingYear: value } ) }
+					/> }
+				</PanelBody>
+			</InspectorControls>
+			<p { ...useBlockProps() }>
+				{ __(
+					showStartingYear && startingYear ? `© ${startingYear} - ${currentYear}` : `© ${currentYear}`,
+					'jin-dev'
+				) }
+			</p>
+		</>
 	);
 }

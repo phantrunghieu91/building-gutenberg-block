@@ -12,6 +12,14 @@ return array(
 		'example' => array(
 			
 		),
+		'attributes' => array(
+			'showStartingYear' => array(
+				'type' => 'boolean'
+			),
+			'startingYear' => array(
+				'type' => 'string'
+			)
+		),
 		'supports' => array(
 			'html' => false,
 			'color' => array(

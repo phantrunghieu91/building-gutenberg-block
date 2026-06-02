@@ -7,6 +7,14 @@
 	"category": "widgets",
 	"description": "Display Copyright Date text.",
 	"example": {},
+	"attributes": {
+		"showStartingYear": {
+			"type": "boolean"
+		},
+		"startingYear": {
+			"type": "string"
+		}
+	},
 	"supports": {
 		"html": false,
 		"color": {
