@@ -40,3 +40,6 @@ wp-content/uploads/
 .htaccess
 .env
 .env.db
+
+.DS_Store
+node_modules
