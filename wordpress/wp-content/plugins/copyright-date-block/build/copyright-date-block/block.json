@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "jin-dev/copyright-date-block",
+  "version": "0.1.0",
+  "title": "Copyright Date Block",
+  "category": "widgets",
+  "description": "Display Copyright Date text.",
+  "example": {},
+  "supports": {
+    "html": false,
+    "color": {
+      "background": false,
+      "text": true
+    },
+    "typography": {
+      "fontSize": true
+    }
+  },
+  "textdomain": "jin-dev",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
