@@ -14,7 +14,7 @@ wordpress/wp-content/languages
 wordpress/wp-content/plugins/index.php
 wordpress/wp-content/themes/index.php
 wordpress/wp-includes/
-index.php
+wordpress/index.php
 license.txt
 readme.html
 wp-*.php
