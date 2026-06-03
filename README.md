@@ -1,178 +1,227 @@
-# WordPress Docker Development Environment
+# WordPress Docker Template
 
-Local WordPress development stack using Docker Compose, Nginx, PHP-FPM, and MySQL.
+A Docker Compose setup for local WordPress development with Nginx, PHP 8.3, MySQL 8.0, and Adminer database management.
 
-## Stack
+## Overview
 
-- **Nginx**: `nginx:stable-alpine`
-- **PHP**: `php:8.3-fpm-alpine`
-- **Database**: `mysql:8.0`
-- **WordPress files**: mounted from `./wordpress`
-- **MySQL data**: persisted in `./mysql`
-- **WP-CLI**: installed in the PHP container
-
-## Project Structure
-
-```text
-.
-├── docker-compose.yml
-├── .env
-├── .env.db
-├── nginx/
-│   ├── Dockerfile
-│   ├── default.conf
-│   └── certs/
-├── php/
-│   └── Dockerfile
-├── wordpress/
-└── mysql/
-```
+This project provides a complete Docker environment for WordPress development. It includes:
+- **Nginx** web server with SSL/TLS support (self-signed certificates)
+- **PHP 8.3 FPM** runtime with WordPress CLI
+- **MySQL 8.0** database
+- **Adminer** for database management
+- Pre-configured for local development with self-signed HTTPS support
 
 ## Requirements
 
-- Docker
-- Docker Compose
-- A local hosts entry for the configured domain
-- Download latest wordpress from https://wordpress.org/download/
+- Docker and Docker Compose installed on your machine
+- macOS, Linux, or Windows with Docker Desktop
 
-## Local Domain
+## Project Structure
 
-Nginx is configured to serve WordPress at:
-
-```text
-jin-dev.test
+```
+wp-docker-template/
+├── docker-compose.yml          # Docker Compose configuration
+├── .env.sample                 # Sample environment variables (web server)
+├── .env.db.sample              # Sample environment variables (database)
+├── nginx/
+│   ├── Dockerfile              # Nginx image configuration
+│   ├── default.conf            # Main WordPress server configuration
+│   ├── adminer.conf            # Adminer proxy configuration
+│   └── certs/                  # Self-signed SSL certificates
+├── php/
+│   └── Dockerfile              # PHP 8.3 FPM image with WordPress CLI
+├── mysql/                      # MySQL data volume (created at runtime)
+└── wordpress/                  # WordPress root directory (manual installation)
 ```
 
-Add this entry to your local hosts file:
+## Setup Instructions
 
-```text
-127.0.0.1 jin-dev.test
-```
-
-On macOS or Linux, edit:
+### 1. Clone or Initialize the Project
 
 ```bash
-sudo nano /etc/hosts
+cd wp-docker-template
 ```
 
-## Environment Files
+### 2. Create Environment Files
 
-`.env` controls the exposed Nginx HTTP port:
-
-```env
-NGINX_PORT=80
-SERVER_NAME=jin.dev
-```
-
-The current Nginx config uses `jin-dev.test` directly in `nginx/default.conf`. `SERVER_NAME` is not currently consumed by Docker Compose or Nginx.
-
-`.env.db` configures MySQL:
-
-```env
-MYSQL_DATABASE=
-MYSQL_USER=
-MYSQL_PASSWORD=
-MYSQL_ROOT_PASSWORD=
-```
-
-The WordPress config points to the Compose database service:
-
-```php
-define( 'DB_HOST', 'database' );
-```
-
-## Start The Project
-
-Build and start the containers:
+Copy the sample environment files and configure them:
 
 ```bash
-docker compose up -d --build
+cp .env.sample .env
+cp .env.db.sample .env.db
 ```
 
-Open the site:
+Edit `.env` and `.env.db` with your desired configuration.
 
-```text
-http://jin-dev.test
-https://jin-dev.test
-```
+### 3. Download WordPress
 
-The HTTPS server uses the self-signed certificates in `nginx/certs`.
+**Note:** The `wordpress/` folder is not included in this repository and must be manually downloaded.
 
-## Stop The Project
+Download WordPress from [wordpress.org](https://wordpress.org/download/) and extract it into the `wordpress/` directory:
 
 ```bash
-docker compose down
+mkdir -p wordpress
+# Download and extract WordPress into the wordpress/ folder
 ```
 
-To stop the project and remove the database volume data stored in this repo, remove the `mysql` directory only if you intentionally want to delete the local database files.
-
-## Useful Commands
-
-View running containers:
+### 4. Start the Docker Environment
 
 ```bash
-docker compose ps
+docker-compose up -d --build
 ```
 
-View logs:
+This will:
+- Build the Nginx and PHP images
+- Start all services (webserver, database, php, adminer)
+- Mount the WordPress folder for development
 
-```bash
-docker compose logs -f
+### 5. Access Your Site
+
+- **WordPress:** https://localhost or your configured `SERVER_NAME`
+- **Adminer:** https://adminer.localhost (or your configured domain)
+
+**Note:** Browsers may show SSL warnings due to self-signed certificates—this is expected for local development.
+
+## Configuration
+
+### Web Server Configuration (`.env`)
+
+```
+NGINX_PORT=          # Port for HTTP (default: 80)
+SERVER_NAME=         # Server domain name (default: jin-dev.test)
 ```
 
-Open a shell in the PHP container:
+### Database Configuration (`.env.db`)
 
-```bash
-docker compose exec php sh
 ```
+MYSQL_DATABASE=      # Database name for WordPress
+MYSQL_USER=          # Database user
+MYSQL_PASSWORD=      # Database password
+MYSQL_ROOT_PASSWORD= # MySQL root password
 
-Run WP-CLI:
-
-```bash
-docker compose exec php wp --allow-root --path=/var/www/html plugin list
-```
-
-Open a MySQL shell:
-
-```bash
-docker compose exec database mysql -u wp_root -p wp
+# Adminer Configuration (use same values as above)
+ADMINER_DRIVER=      # Database driver (default: server)
+ADMINER_SERVER=      # Database host
+ADMINER_USERNAME=    # Database username
+ADMINER_PASSWORD=    # Database password
+ADMINER_DB=          # Database name
 ```
 
 ## Services
 
-### `webserver`
+### Webserver (nginx)
+- Alpine-based Nginx stable image
+- Configured for WordPress with PHP FastCGI
+- SSL/TLS support with self-signed certificates
+- Proxies Adminer requests to the Adminer container
 
-Builds from `./nginx`, exposes port `80` through `${NGINX_PORT}`, and exposes HTTPS on `443`.
+### PHP
+- PHP 8.3 FPM on Alpine Linux
+- Pre-installed extensions: mysqli, PDO, PDO_MySQL
+- Includes WordPress CLI (wp-cli)
+- Mounted volume: `/var/www/html` (WordPress root)
 
-The WordPress directory is mounted into Nginx at:
+### Database (mysql)
+- MySQL 8.0
+- Persistent volume: `./mysql/` directory
+- Configured via `.env.db` environment variables
 
-```text
-/var/www/html
+### Adminer
+- Web-based database management tool
+- Accessible at `adminer.{SERVER_NAME}` via HTTPS
+- Auto-login configured with database credentials from `.env.db`
+
+## Usage
+
+### Running Commands
+
+#### Access PHP Container
+
+```bash
+docker-compose exec php bash
 ```
 
-### `php`
+#### Use WordPress CLI
 
-Builds from `./php`, installs the required PHP MySQL extensions, enables `pdo_mysql`, and installs WP-CLI.
-
-The WordPress directory is mounted into PHP at:
-
-```text
-/var/www/html
+```bash
+docker-compose exec php wp --allow-root <command>
 ```
 
-### `database`
+Example: Create a new WordPress user
 
-Uses the official MySQL 8.0 image and reads credentials from `.env.db`.
-
-Database files are persisted at:
-
-```text
-./mysql
+```bash
+docker-compose exec php wp user create admin admin@example.com --allow-root
 ```
 
-## Notes
+#### Connect to MySQL
 
-- WordPress core files are stored in `./wordpress`.
-- Installed plugins include Query Monitor and Akismet.
-- Installed themes include Twenty Twenty-Three, Twenty Twenty-Four, and Twenty Twenty-Five.
-- The local database files are stored directly inside this project under `./mysql`.
+```bash
+docker-compose exec database mysql -u root -p
+```
+
+### Stopping Services
+
+```bash
+# Stop services (preserve data)
+docker-compose stop
+
+# Stop and remove containers
+docker-compose down
+
+# Stop, remove containers, and volumes
+docker-compose down -v
+```
+
+## Development Workflow
+
+1. Edit WordPress files directly in the `wordpress/` folder
+2. Changes are immediately reflected due to volume mounting
+3. Use Adminer for database management
+4. Access logs via Docker:
+   ```bash
+   docker-compose logs -f <service_name>
+   ```
+
+## File Mounting
+
+Both `webserver` and `php` services have the same WordPress volume mount:
+- **Host Path:** `./wordpress/`
+- **Container Path:** `/var/www/html`
+- **Mode:** delegated (optimized for macOS performance)
+
+## SSL Certificates
+
+Self-signed SSL certificates are included in `nginx/certs/`. For production use, replace these with valid certificates from a trusted Certificate Authority.
+
+## Important Notes
+
+- The `wordpress/` directory must be manually populated with WordPress files from [wordpress.org](https://wordpress.org)
+- Adminer database credentials are automatically populated from `.env.db`
+- Ensure ports 80 and 443 are available, or modify `NGINX_PORT` in `.env`
+- Data is persisted in the `mysql/` volume—delete it with `docker-compose down -v`
+
+## Troubleshooting
+
+### Port Already in Use
+
+If port 80 or 443 is in use, modify the `NGINX_PORT` in `.env` or stop the conflicting service.
+
+### Database Connection Errors
+
+Verify that `.env.db` matches the database credentials and that the database service is running:
+
+```bash
+docker-compose ps
+```
+
+### Permission Issues
+
+If you encounter permission issues with the `wordpress/` folder, ensure it has appropriate permissions or use:
+
+```bash
+docker-compose exec php chown -R www-data:www-data /var/www/html
+```
+
+## License
+
+This template is provided as-is for local development purposes.
