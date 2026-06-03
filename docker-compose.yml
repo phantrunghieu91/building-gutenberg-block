@@ -17,6 +17,13 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
 
+  adminer:
+    image: msav/adminer-autologin  
+    env_file:
+      - .env.db
+    depends_on:
+      - database
+
   php:
     build: 
       context: ./php
