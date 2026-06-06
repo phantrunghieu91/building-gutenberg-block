@@ -86,4 +86,10 @@
       grid-area: pile;
     }
   }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--_stack-gap, .625rem);
+  }
 }
