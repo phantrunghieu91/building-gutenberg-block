@@ -1,37 +1,26 @@
 <?php
 // This file is generated. Do not modify it manually.
 return array(
-	'copyright-date-block' => array(
+	'jin-section-block' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
-		'name' => 'jin-dev/copyright-date-block',
+		'name' => 'jin-dev/jin-section-block',
 		'version' => '0.1.0',
-		'title' => 'Copyright Date Block',
-		'category' => 'widgets',
-		'description' => 'Display Copyright Date text.',
+		'title' => 'Jin\'s Section Block',
+		'category' => 'design',
+		'icon' => 'smiley',
+		'description' => 'A section block created by Jin.',
 		'example' => array(
 			
 		),
-		'attributes' => array(
-			'showStartingYear' => array(
-				'type' => 'boolean'
-			),
-			'startingYear' => array(
-				'type' => 'string'
-			)
-		),
 		'supports' => array(
 			'html' => false,
-			'color' => array(
-				'background' => false,
-				'text' => true
-			),
-			'typography' => array(
-				'fontSize' => true
-			)
+			'allowedBlocks' => true
 		),
-		'textdomain' => 'jin-dev',
+		'textdomain' => 'jin-section-block',
 		'editorScript' => 'file:./index.js',
-		'render' => 'file:./render.php'
+		'editorStyle' => 'file:./index.css',
+		'style' => 'file:./style-index.css',
+		'viewScript' => 'file:./view.js'
 	)
 );

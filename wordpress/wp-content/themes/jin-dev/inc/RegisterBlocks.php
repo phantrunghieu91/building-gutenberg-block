@@ -12,6 +12,7 @@ class RegisterBlocks {
   protected function set_block_list() {
     $this->block_list = [
       'copyright-date-block',
+      'jin-section-block',
     ];
   }
   public function add_block_to_list( $block_name ) {

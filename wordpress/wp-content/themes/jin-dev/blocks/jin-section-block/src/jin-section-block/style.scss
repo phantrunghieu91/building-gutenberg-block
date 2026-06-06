@@ -1,0 +1,26 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+@layer components {
+	.jin-section {
+		container-type: inline-size;
+		padding-block: var(--_padding-block, 3.125rem);
+	
+		&__inner {
+			padding-inline: var(--_jin-section-padding-inline, .625rem );
+			width: min(var(--wp--style--global--content-size), 100%);
+			margin-inline: auto;
+	
+			&--full {
+				width: 100%;
+			}
+	
+			@container ( min-width: 1200px ) {
+				--_jin-section-padding-inline: 0rem;
+			}
+		}
+	}
+}

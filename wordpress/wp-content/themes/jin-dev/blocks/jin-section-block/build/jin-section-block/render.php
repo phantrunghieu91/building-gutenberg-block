@@ -9,10 +9,9 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
  */
-$current_year = date( 'Y' );
 ?>
-<p <?php echo get_block_wrapper_attributes(); ?>>
-	<?php _e( sprintf( '© %s', 
-		!empty( $attributes['showStartingYear'] ) && !empty( $attributes['startingYear'] ) ? "{$attributes['startingYear']} - {$current_year}" : $current_year
-	), 'jin-dev' ); ?>
-</p>
+<section <?php echo get_block_wrapper_attributes( [ 'class' => 'jin-section' ] ); ?>>
+	<div class="jin-section__inner">
+		<?php echo $content; ?>
+	</div>
+</section>
