@@ -31,7 +31,7 @@ wordpress/wp-content/plugins/query-monitor
 wordpress/wp-content/plugins/laravel-dd
 
 # Uploads
-wp-content/uploads/
+wordpress/wp-content/uploads/
 
 # Log files
 *.log
