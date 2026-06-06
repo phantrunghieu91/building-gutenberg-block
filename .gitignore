@@ -28,6 +28,7 @@ wordpress/wp-content/themes/twenty*/
 
 # Example plugin
 wordpress/wp-content/plugins/query-monitor
+wordpress/wp-content/plugins/laravel-dd
 
 # Uploads
 wp-content/uploads/
