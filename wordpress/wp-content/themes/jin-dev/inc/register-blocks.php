@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @author Hieu "Jin" Phan Trung
  * * Template: Class handle register custom
@@ -10,7 +10,7 @@ class RegisterBlocks {
     add_action( 'init', [ $this, 'register_blocks'] );
   }
   protected function set_block_list() {
-    $this->block_list = [];
+    $this->block_list = ['jins-socials'];
   }
   public function add_block_to_list( $block_name ) {
     if( empty( $block_name ) ) {
