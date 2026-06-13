@@ -1,0 +1,10 @@
+.wp-block-button.is-style-gradient-bg .wp-block-button__link {
+  background: linear-gradient(to right, purple, pink, purple) 0% 100% / 200%;
+  color: var(--wp--preset--color--white);
+
+  transition: background 250ms;
+
+  &:hover {
+    background-position: 100%;
+  }
+}
