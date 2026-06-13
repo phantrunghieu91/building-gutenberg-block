@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jin-dev/jins-socials",
+	"version": "0.1.0",
+	"title": "Jins Socials",
+	"category": "widgets",
+	"description": "Display socials list.",
+	"example": {},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "jin-dev/jins-socials",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}
