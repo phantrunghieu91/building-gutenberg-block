@@ -23,7 +23,12 @@ function theme_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'theme_styles' );
 
+// * Register Theme Options pages
+require_once __DIR__ . '/inc/register-options-pages.php';
+
+// * Register custom blocks
 require_once __DIR__ . '/inc/register-blocks.php';
 new RegisterBlocks();
 
+// * Override default wordpress's block
 require_once __DIR__ . '/inc/override-wp-blocks/index.php';
