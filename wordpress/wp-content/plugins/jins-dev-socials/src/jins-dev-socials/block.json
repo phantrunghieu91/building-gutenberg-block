@@ -1,16 +1,17 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "jin-dev/jins-socials",
+	"name": "jins-dev/jins-dev-socials",
 	"version": "0.1.0",
-	"title": "Jins Socials",
+	"title": "Jins Dev Socials",
 	"category": "widgets",
-	"description": "Display socials list.",
+	"icon": "smiley",
+	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},
 	"supports": {
 		"html": false
 	},
-	"textdomain": "jin-dev/jins-socials",
+	"textdomain": "jins-dev-socials",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",

@@ -11,5 +11,5 @@
  */
 ?>
 <p <?php echo get_block_wrapper_attributes(); ?>>
-	<?php esc_html_e( 'Jins Socials – hello from a dynamic block!', 'jin-dev&#x2F;jins-socials' ); ?>
+	<?php esc_html_e( 'Jins Dev Socials – hello from a dynamic block!', 'jins-dev-socials' ); ?>
 </p>

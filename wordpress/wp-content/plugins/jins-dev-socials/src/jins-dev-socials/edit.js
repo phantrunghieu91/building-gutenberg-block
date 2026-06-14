@@ -33,8 +33,8 @@ export default function Edit() {
 	return (
 		<p { ...useBlockProps() }>
 			{ __(
-				'Jins Socials – hello from the editor!',
-				'jin-dev&#x2F;jins-socials'
+				'Jins Dev Socials – hello from the editor!',
+				'jins-dev-socials'
 			) }
 		</p>
 	);

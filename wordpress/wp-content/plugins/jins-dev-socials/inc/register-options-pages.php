@@ -11,7 +11,7 @@ class JinsRegisteringOptionsPages {
     $this->set_options_pages();
     $this->set_options_settings();
     add_action( 'admin_menu', [ $this, 'register_options_pages' ] );
-    add_action( 'admin_init', [ $this, 'register_option_settings'] );
+    add_action( 'init', [ $this, 'register_option_settings'] );
     add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_options_page_asset'] );
   }
   protected function set_options_pages() {
@@ -30,11 +30,24 @@ class JinsRegisteringOptionsPages {
   protected function set_options_settings() {
     $this->options_settings = [
       [
-        'option_group'      => 'jins_dev_general_settings',
-        'option_name'       => 'jins_dev_socials',
-        'type'              => 'object',
-        'label'             => 'Socials',
-        'show_in_rest'      => true,
+        'option_group' => 'jins_dev_general_settings',
+        'option_name'  => 'jins_dev_socials',
+        'type'         => 'array',
+        'label'        => 'Socials',
+        'show_in_rest' => [
+          'schema' => [
+            'type'  => 'array',
+            'items' => [
+              'type'       => 'object',
+              'properties' => [
+                'icon_id'  => [ 'type' => 'integer' ],
+                'icon_url' => ['type' => 'string'],
+                'label'    => [ 'type' => 'string' ],
+                'url'      => [ 'type' => 'string' ],
+              ]
+            ]
+          ]
+        ],
         'sanitize_callback' => null,
       ]
     ];
@@ -87,15 +100,16 @@ class JinsRegisteringOptionsPages {
       }
       $asset_file   = include_once get_template_directory() . "/inc/dashboard/{$page['menu_slug']}.asset.php";
       $js_file_path = get_template_directory_uri() . "/inc/dashboard/{$page['menu_slug']}.js";
+
+      wp_enqueue_media();
       
       wp_enqueue_script(
         "{$page['menu_slug']}-page-js",
         $js_file_path,
-        $asset_file['dependencies'],
+        array_merge( $asset_file['dependencies'], [ 'media-upload' ] ),
         $asset_file['version'],
         true
       );
     }
   }
 }
-new JinsRegisteringOptionsPages();

@@ -21,5 +21,5 @@
  */
 
 /* eslint-disable no-console */
-console.log( 'Hello World! (from jin-dev-jins-socials block)' );
+console.log( 'Hello World! (from jins-dev-jins-dev-socials block)' );
 /* eslint-enable no-console */
