@@ -13,6 +13,9 @@
 
     legend {
       font-weight: 600;
+      padding-inline: .25rem;
+      margin-inline: auto;
+      background-color: #fff;
     }
 
     &-img-wrapper {
@@ -46,4 +49,16 @@
 .components-button {
   min-width: 5rem;
   justify-content: center;
+}
+
+.socials-table {
+  min-width: 37.5rem;
+
+  th, td {
+    text-align: center;
+  }
+
+  th {
+    font-weight: 500;
+  }
 }

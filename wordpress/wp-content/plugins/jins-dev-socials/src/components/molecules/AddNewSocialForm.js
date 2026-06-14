@@ -1,11 +1,6 @@
-import { useState } from '@wordpress/element';
 import { TextControl, Button } from '@wordpress/components';
 
-const AddNewSocialForm = ( { onAddNew } ) => {
-  const DEFAULT_NEW_SOCIAL = { icon_id: 0, icon_url: '', label: '', url: '' };
-  const [ newSocial, setNewSocial ] = useState( DEFAULT_NEW_SOCIAL );
-  const [ buttonAction, setButtonAction ] = useState( 'add_new' );  // add_new || edit
-
+const AddNewSocialForm = ( { newSocial, setNewSocial, onAddNew, isEdit, onUpdate, onCancelEdit } ) => {
 	const openMediaPicker = ( onSelect ) => {
 		const frame = wp.media( {
 			title: 'Select Icon',
@@ -22,21 +17,13 @@ const AddNewSocialForm = ( { onAddNew } ) => {
 		frame.open();
 	};
 
-  const handleAddNewSocial = () => {
-    switch( buttonAction ) {
-      case 'edit':
-        console.log('Save edit');
-        break;
-      default:
-        onAddNew(newSocial);
-        break;
-      }
-      setNewSocial( DEFAULT_NEW_SOCIAL );
+  const handleSelectIcon = ( media ) => {
+    setNewSocial( { ...newSocial, icon_id: media.id, icon_url: media.url });
   }
 
   return (
     <fieldset class="manage-socials__add-new">
-      <legend>{ buttonAction === 'add_new' ? 'Add new social' : `Editing ${newSocial.label}`}</legend>
+      <legend>{ isEdit ? `Editing '${newSocial.label}'` : 'Add new social' }</legend>
       <div class="manage-socials__add-new-img-wrapper">
         <span>ICON</span>
         { newSocial.icon_id ? (
@@ -44,9 +31,7 @@ const AddNewSocialForm = ( { onAddNew } ) => {
         ) : (
           <div class="manage-socials__add-new-placeholder" />
         ) }
-        <Button __next40pxDefaultSize isSecondary onClick={ () => openMediaPicker( ( media ) => {
-          setNewSocial( { ...newSocial, icon_id: media.id, icon_url: media.url } );
-        } ) }>
+        <Button __next40pxDefaultSize isSecondary onClick={ () => openMediaPicker( handleSelectIcon ) }>
           { newSocial.icon_id ? 'Change' : 'Select' }
         </Button>
       </div>
@@ -65,10 +50,16 @@ const AddNewSocialForm = ( { onAddNew } ) => {
         value={ newSocial.url }
         onChange={ ( val ) => setNewSocial( { ...newSocial, url: val } ) }
       />
-      <Button
-        style={ { minWidth: '5rem', justifyContent: 'center' } }
-        __next40pxDefaultSize isPrimary onClick={ handleAddNewSocial }
-      >Add Social</Button>
+      {
+        isEdit ? (
+          <>
+            <Button __next40pxDefaultSize isPrimary onClick={ onUpdate }>Edit</Button>
+            <Button __next40pxDefaultSize isSecondary onClick={ onCancelEdit }>Cancel</Button>
+          </>
+          ) : (
+          <Button __next40pxDefaultSize isPrimary onClick={ onAddNew }>Add Social</Button>
+        )
+      }
     </fieldset>
   );
 }
