@@ -1,6 +1,16 @@
+import { useSelect, useDispatch } from '@wordpress/data';
 import { TextControl, Button } from '@wordpress/components';
 
-const AddNewSocialForm = ( { newSocial, setNewSocial, onAddNew, isEdit, onUpdate, onCancelEdit } ) => {
+import store from '../../store';
+
+const AddNewSocialForm = (  ) => {
+  const newSocial = useSelect( (select) => select( store ).getSocial());
+  const editingSocialIndex = useSelect( (select) => select( store ).getSelectedSocialIndex() );
+
+  const isEdit = editingSocialIndex !== null;
+
+  const { setSocial: setNewSocial, setSelectedSocialIndex, addSocial, updateSocial } = useDispatch( store );
+
 	const openMediaPicker = ( onSelect ) => {
 		const frame = wp.media( {
 			title: 'Select Icon',
@@ -19,6 +29,11 @@ const AddNewSocialForm = ( { newSocial, setNewSocial, onAddNew, isEdit, onUpdate
 
   const handleSelectIcon = ( media ) => {
     setNewSocial( { ...newSocial, icon_id: media.id, icon_url: media.url });
+  }
+
+  const handleCancelEdit = () => {
+    setSelectedSocialIndex( null );
+    setNewSocial();
   }
 
   return (
@@ -53,11 +68,11 @@ const AddNewSocialForm = ( { newSocial, setNewSocial, onAddNew, isEdit, onUpdate
       {
         isEdit ? (
           <>
-            <Button __next40pxDefaultSize isPrimary onClick={ onUpdate }>Edit</Button>
-            <Button __next40pxDefaultSize isSecondary onClick={ onCancelEdit }>Cancel</Button>
+            <Button __next40pxDefaultSize isPrimary onClick={ updateSocial }>Edit</Button>
+            <Button __next40pxDefaultSize isSecondary onClick={ handleCancelEdit }>Cancel</Button>
           </>
           ) : (
-          <Button __next40pxDefaultSize isPrimary onClick={ onAddNew }>Add Social</Button>
+          <Button __next40pxDefaultSize isPrimary onClick={ addSocial }>Add Social</Button>
         )
       }
     </fieldset>

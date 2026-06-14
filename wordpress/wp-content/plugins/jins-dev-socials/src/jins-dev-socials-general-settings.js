@@ -1,42 +1,29 @@
 import { render } from '@wordpress/element';
-import { TabPanel, TextControl, Button, Card, CardHeader, CardBody, CardFooter } from '@wordpress/components';
-import { useState, useEffect } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
-import { SnackbarList } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { TabPanel, Card, CardHeader, CardBody, CardFooter } from '@wordpress/components';
+import { SnackbarList } from '@wordpress/components';
 import { store as noticesStore } from '@wordpress/notices';
 import ManageSocialsTabPanel from './components/organisms/ManageSocialsTabPanel';
 
 import './jins-dev-socials-general-settings.scss';
 
+import store from './store';
+
 const App = () => {
-	const [ socials, setSocials ] = useState( [] );
-	const [ newSocial, setNewSocial ] = useState( { icon_id: 0, icon_url: '', label: '', url: '' } );
 	const { createSuccessNotice, createErrorNotice, removeNotice } = useDispatch( noticesStore );
 	const notices = useSelect( ( select ) => select( noticesStore ).getNotices() );
 
-	useEffect( () => {
-		apiFetch( { path: '/wp/v2/settings' } ).then( ( settings ) => {
-			setSocials( settings.jins_dev_socials ?? [] );
-		} );
-	}, [] );
+	const socials = useSelect( ( select ) => select( store ).getSocials() );
+	const { saveSocials } = useDispatch( store );
 
-	const saveSocials = () => {
-		apiFetch( {
-			path: '/wp/v2/settings',
-			method: 'POST',
-			data: { jins_dev_socials: socials },
-		} )
-			.then( () => {
-				createSuccessNotice( 'Socials saved successfully!', { type: 'snackbar' } );
-			} )
-			.catch( () => {
-				createErrorNotice( 'Failed to save socials.', { type: 'snackbar' } );
-			} );
-	};
-
-	const removeSocial = ( index ) => {
-		setSocials( socials.filter( ( _, i ) => i !== index ) );
+	const handleSave = async () => {
+		try {
+			await saveSocials( socials );
+			createSuccessNotice( 'Socials saved successfully!', { type: 'snackbar' } );
+		} catch ( error ) {
+			createErrorNotice( 'Failed to save socials.', { type: 'snackbar' } );
+			console.log( 'SAVING ERROR: ', error );
+		}
 	};
 
 	return (
@@ -55,25 +42,21 @@ const App = () => {
 				{ ( tab ) => (
 					<>
 						{ tab.name === 'manage-socials' && (
-							<ManageSocialsTabPanel 
-								title={tab.title}
-								removeSocial={removeSocial}
-								setSocials={setSocials}
-								socials={socials}
-								onSave={saveSocials}
+							<ManageSocialsTabPanel
+								title={ tab.title } onSave={ handleSave }
 							/>
 						) }
 
-						{ tab.name === 'display-settings' && ( 
+						{ tab.name === 'display-settings' && (
 							<Card>
-								<CardHeader justify={'center'}>
+								<CardHeader justify={ 'center' }>
 									<h2>{ tab.title }</h2>
 								</CardHeader>
 								<CardBody></CardBody>
 								<CardFooter>
 									<CardFooter justify="center">
-										<Button style={ { minWidth: '5rem', justifyContent: 'center' } } 
-											__next40pxDefaultSize isPrimary 
+										<Button
+											__next40pxDefaultSize isPrimary
 											onClick={ null }
 										>Save</Button>
 									</CardFooter>
