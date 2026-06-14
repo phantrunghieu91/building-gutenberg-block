@@ -16,9 +16,14 @@
 if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly.
 }
-require_once plugin_dir_path() . '/inc/register-options-pages.php';
+define( 'PLUGIN_JINS_DEV_SOCIALS_PATH', plugin_dir_path(__FILE__));
+define( 'PLUGIN_JINS_DEV_SOCIALS_URI', plugin_dir_url(__FILE__));
+
+// Register option page for setup socials globally
+require_once __DIR__ . '/inc/register-options-pages.php';
+$option_page_instance = new JinsRegisteringOptionsPages();
+
 function jins_dev_jins_dev_socials_block_init() {
-  new JinsRegisteringOptionsPages();
   wp_register_block_types_from_metadata_collection( __DIR__ . '/build', __DIR__ . '/build/blocks-manifest.php' );
 }
 function plugin_activate() {

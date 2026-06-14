@@ -20,7 +20,7 @@ class JinsRegisteringOptionsPages {
         'page_title' => __( "Jin's Dev Theme General Settings", 'jins-dev' ),
         'menu_title' => __( 'Jin\'s Theme Settings','jins-dev' ),
         'capability' => 'manage_options',
-        'menu_slug'  => 'jins-dev-general-settings',
+        'menu_slug'  => 'jins-dev-socials-general-settings',
         'callback'   => [$this, 'render_options_page_template'],
         'icon_url'   => 'dashicons-chart-pie',
         'position'   => 10
@@ -98,8 +98,9 @@ class JinsRegisteringOptionsPages {
       if( "toplevel_page_{$page['menu_slug']}" !== $hook ) {
         continue;
       }
-      $asset_file   = include_once get_template_directory() . "/inc/dashboard/{$page['menu_slug']}.asset.php";
-      $js_file_path = get_template_directory_uri() . "/inc/dashboard/{$page['menu_slug']}.js";
+      $asset_file   = include_once PLUGIN_JINS_DEV_SOCIALS_PATH . "/build/{$page['menu_slug']}.asset.php";
+      $js_file_path = PLUGIN_JINS_DEV_SOCIALS_URI . "/build/{$page['menu_slug']}.js";
+      $css_file_path = PLUGIN_JINS_DEV_SOCIALS_URI . "/build/{$page['menu_slug']}.css";
 
       wp_enqueue_media();
       
@@ -109,6 +110,14 @@ class JinsRegisteringOptionsPages {
         array_merge( $asset_file['dependencies'], [ 'media-upload' ] ),
         $asset_file['version'],
         true
+      );
+
+      wp_enqueue_style(
+        "{$page['menu_slug']}-page-js",
+        $css_file_path,
+        [],
+        $asset_file['version'],
+        'all'
       );
     }
   }

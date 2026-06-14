@@ -26,6 +26,7 @@ wp-config.php
 # Example themes
 wordpress/wp-content/themes/twenty*/
 wordpress/wp-content/themes/jin-dev/blocks/*/build/
+wordpress/wp-content/plugins/*/build/
 
 # Example plugin
 wordpress/wp-content/plugins/query-monitor
