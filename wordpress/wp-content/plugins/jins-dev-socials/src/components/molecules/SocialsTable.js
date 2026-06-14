@@ -1,5 +1,6 @@
 import { useSelect, useDispatch } from '@wordpress/data';
-import { Button } from '@wordpress/components';
+import { useState } from '@wordpress/element';
+import { Button, __experimentalConfirmDialog as ConfirmDialog } from '@wordpress/components';
 
 import store from '../../store';
 
@@ -10,10 +11,34 @@ const SocialsTable = (  ) => {
   const isLoading = useSelect( select => select( store ).getIsLoading() );
   const socials = useSelect( select => select( store ).getSocials() );
 
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState( false );
+  const [socialIndexToRemove, setSocialIndexToRemove] = useState( null );
+
   const { removeSocial, setSelectedSocialIndex } = useDispatch( store );
+
+  const handleRemoveClick = ( index ) => {
+    setSocialIndexToRemove( index );
+    setIsConfirmDialogOpen( true );
+  }
+
+  const handleConfirmDialogConfirmed = () => {
+    removeSocial( socialIndexToRemove );
+    setSocialIndexToRemove( null );
+    setIsConfirmDialogOpen( false );
+  };
+
+  const handleConfirmDialogCanceled = () => {
+    setSocialIndexToRemove( null );
+    setIsConfirmDialogOpen( false );
+  };
 
   return (
     <div style={ { overflowX: 'auto' } }>
+      <ConfirmDialog 
+        isOpen={isConfirmDialogOpen}
+        onConfirm={handleConfirmDialogConfirmed}
+        onCancel={handleConfirmDialogCanceled}
+      >Are you really want to remove this social item?</ConfirmDialog>
       <table className="wp-list-table widefat fixed striped socials-table" >
         <thead>
           <tr>
@@ -47,7 +72,7 @@ const SocialsTable = (  ) => {
                 <Button icon={ EditIcon } size={'small'} onClick={ () => setSelectedSocialIndex( index ) } iconPosition={'left'}>
                   Edit
                 </Button>
-                <Button icon={RemoveIcon} size={'small'} isDestructive onClick={ () => removeSocial( index ) }>
+                <Button icon={RemoveIcon} size={'small'} isDestructive onClick={ () => handleRemoveClick( index ) }>
                   Remove
                 </Button>
               </td>

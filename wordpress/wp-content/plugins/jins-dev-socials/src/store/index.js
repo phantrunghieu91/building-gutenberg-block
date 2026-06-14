@@ -7,7 +7,6 @@ const DEFAULT_STATE = {
   socials: [],
   social: { icon_id: 0, icon_url: '', label: '', url: '' },
   selectedSocialIndex: null,
-  selectedSocialAction: 'remove',
 };
 
 const actions = {
