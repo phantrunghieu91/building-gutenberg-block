@@ -18,7 +18,7 @@ const ManageSocialsTabPanel = ( { title, onSave } ) => {
 
       </CardBody>
       <CardFooter justify="center">
-        <Button __next40pxDefaultSize isPrimary onClick={ onSave } >Save</Button>
+        <Button __next40pxDefaultSize isPrimary onClick={ () => onSave('social') } >Save</Button>
       </CardFooter>
     </Card>
   )
