@@ -41,15 +41,35 @@ class JinsRegisteringOptionsPages {
               'type'       => 'object',
               'properties' => [
                 'icon_id'  => [ 'type' => 'integer' ],
-                'icon_url' => ['type' => 'string'],
+                'icon_url' => [ 'type' => 'string' ],
                 'label'    => [ 'type' => 'string' ],
                 'url'      => [ 'type' => 'string' ],
               ]
             ]
           ]
         ],
-        'sanitize_callback' => null,
-      ]
+      ],
+      [
+        'option_group' => 'jins_dev_fe_display_settings',
+        'option_name'  => 'jins_dev_socials_fe_display_settings',
+        'type'         => 'object',
+        'label'        => 'Display on F.E Settings',
+        'show_in_rest' => [
+          'schema' => [
+            'type'       => 'object',
+            'properties' => [
+              'will_display_on_web'          => [ 'type' => 'boolean' ],
+              'horizontal_position'          => [ 'type' => 'string' ],
+              'vertical_position'            => [ 'type' => 'string' ],
+              'icon_size'                    => [ 'type' => 'number' ],
+              'spacing_with_horizontal_edge' => ['type' => 'number'],
+              'spacing_with_vertical_edge'   => ['type' => 'number'],
+              'space_between_items'          => ['type' => 'number'],
+              'border_corner_style'          => ['type' => 'string'],
+            ]
+          ]
+        ],
+      ],
     ];
   }
   public function register_options_pages() : void {
@@ -98,8 +118,8 @@ class JinsRegisteringOptionsPages {
       if( "toplevel_page_{$page['menu_slug']}" !== $hook ) {
         continue;
       }
-      $asset_file   = include_once PLUGIN_JINS_DEV_SOCIALS_PATH . "/build/{$page['menu_slug']}.asset.php";
-      $js_file_path = PLUGIN_JINS_DEV_SOCIALS_URI . "/build/{$page['menu_slug']}.js";
+      $asset_file    = include_once PLUGIN_JINS_DEV_SOCIALS_PATH . "/build/{$page['menu_slug']}.asset.php";
+      $js_file_path  = PLUGIN_JINS_DEV_SOCIALS_URI . "/build/{$page['menu_slug']}.js";
       $css_file_path = PLUGIN_JINS_DEV_SOCIALS_URI . "/build/{$page['menu_slug']}.css";
 
       wp_enqueue_media();

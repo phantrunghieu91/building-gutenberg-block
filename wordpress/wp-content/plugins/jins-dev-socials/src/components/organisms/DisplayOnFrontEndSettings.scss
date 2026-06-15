@@ -1,0 +1,102 @@
+.display-settings {
+  container-type: inline-size;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1.25rem;
+
+  &__options-wrapper {
+    display: grid;
+    grid-template-columns: repeat( var(--_cols, 1), minmax(0, 1fr));
+    gap: 1.25rem;
+
+    @container (width > 640px) {
+      --_cols: 2;
+    }
+  }
+
+  &__visibility .components-flex {
+    justify-content: center;
+
+    label {
+      flex: 0 0 fit-content;
+    }
+  }
+
+  &__controllers {
+    display: flex;
+    flex-direction: column;
+    gap: .9375rem;
+  }
+
+  &__fields {
+    padding: .75rem .875rem;
+    border: .0625rem solid hsl( 0 0% 0% / .1);
+
+    legend {
+      font-weight: 600;
+    }
+  }
+
+  &__field-group {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(12.5rem, 1fr) );
+    gap: .625rem;
+  }
+
+  &__preview {
+    position: relative;
+    min-height: 31.25rem;
+    background-color: #eeeeee47;
+    border: .125rem solid var(--wp-admin-theme-color);
+
+    &:before {
+      content: 'Website';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      pointer-events: none;
+      font-size: 3rem;
+      font-weight: 900;
+      color: hsl( from var(--wp-admin-theme-color) h s l / .5 );
+    }
+
+    .jins-dev-socials {
+      transition-duration: 300ms;
+      transition-property: left, right, top, bottom;
+    }
+  }
+
+  .jins-dev-socials {
+    --_spacing-with-horizontal-edge: 1.25rem;
+    --_spacing-with-vertical-edge: 1.25rem;
+    --_space-between-items: .625rem;
+    --_icon-size: 1.5rem;
+    --_icon-border-radius: 50%;
+    position: absolute;
+    top: var(--_top, auto);
+    right: var(--_right, var(--_spacing-with-vertical-edge));
+    left: var(--_left, auto);
+    bottom: var(--_bottom, var(--_spacing-with-horizontal-edge));
+    translate: var(--_translate-x, 0) var(--_translate-y, 0);
+
+    &__list {
+      list-style: none;
+      margin-block: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--_space-between-items);
+    }
+
+    &__item {
+      margin-block-end: 0;
+
+      img {
+        display: block;
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        border-radius: var(--_icon-border-radius);
+      }
+    }
+  }
+}

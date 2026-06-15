@@ -7,6 +7,16 @@ const DEFAULT_STATE = {
   socials: [],
   social: { icon_id: 0, icon_url: '', label: '', url: '' },
   selectedSocialIndex: null,
+  feDisplaySettings: {
+    will_display_on_web: false,
+    horizontal_position: 'right',
+    vertical_position: 'bottom',
+    icon_size: 24,
+    spacing_with_horizontal_edge: 20,
+    spacing_with_horizontal_edge: 20,
+    space_between_items: 10,
+    border_corner_style: 'full', // small, medium, large, full
+  },
 };
 
 const actions = {
@@ -23,6 +33,14 @@ const actions = {
       method: 'POST',
       data: { jins_dev_socials: socials },
     } );
+  },
+  setFEDisplaySettings: ( settings ) => ( { type: TYPES.SET_FE_DISPLAY_SETTINGS, settings } ),
+  saveFEDisplaySettings: async( settings ) => {
+    await apiFetch( {
+      path: 'wp/v2/settings',
+      method: 'POST',
+      data: { jins_dev_socials_fe_display_settings: settings }
+    })
   }
 };
 
@@ -47,6 +65,8 @@ const reducer = ( state = DEFAULT_STATE, action ) => {
         social: DEFAULT_STATE.social,
         selectedSocialIndex: null,
       };
+    case TYPES.SET_FE_DISPLAY_SETTINGS:
+      return { ...state, feDisplaySettings: action.settings };
     default:
       return state;
   }
@@ -57,6 +77,7 @@ const selectors = {
   getSocials: ( state ) => state.socials,
   getSocial: ( state ) => state.social,
   getSelectedSocialIndex: ( state ) => state.selectedSocialIndex,
+  getFEDisplaySettings: ( state ) => state.feDisplaySettings,
 };
 
 const resolvers = {
@@ -66,6 +87,12 @@ const resolvers = {
     actions.setIsLoading( false );
     return actions.setSocials( settings.jins_dev_socials ?? [] );
   },
+  getFEDisplaySettings: async () => {
+    actions.setIsLoading( true );
+    const settings = await apiFetch( { path: '/wp/v2/settings' } );
+    actions.setIsLoading( false );
+    return actions.setFEDisplaySettings( settings.jins_dev_socials_fe_display_settings ?? state.feDisplaySettings );
+  }
 }
 
 const store = createReduxStore( 'jins-dev-socials', { reducer, actions, selectors, resolvers } );

@@ -1,6 +1,6 @@
 import { render } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { TabPanel, Card, CardHeader, CardBody, CardFooter } from '@wordpress/components';
+import { TabPanel } from '@wordpress/components';
 import { SnackbarList } from '@wordpress/components';
 import { store as noticesStore } from '@wordpress/notices';
 import ManageSocialsTabPanel from './components/organisms/ManageSocialsTabPanel';
@@ -8,17 +8,23 @@ import ManageSocialsTabPanel from './components/organisms/ManageSocialsTabPanel'
 import './jins-dev-socials-general-settings.scss';
 
 import store from './store';
+import DisplayOnFrontEndSettings from './components/organisms/DisplayOnFrontEndSettings';
 
 const App = () => {
 	const { createSuccessNotice, createErrorNotice, removeNotice } = useDispatch( noticesStore );
 	const notices = useSelect( ( select ) => select( noticesStore ).getNotices() );
 
 	const socials = useSelect( ( select ) => select( store ).getSocials() );
-	const { saveSocials } = useDispatch( store );
+	const feDisplaySettings = useSelect( ( select ) => select( store ).getFEDisplaySettings() );
+	const { saveSocials, saveFEDisplaySettings } = useDispatch( store );
 
-	const handleSave = async () => {
+	const handleSave = async ( type = 'social' ) => {
 		try {
-			await saveSocials( socials );
+			if ( type === 'social' ) {
+				await saveSocials( socials );
+			} else if ( type === 'fe_display_settings' ) {
+				await saveFEDisplaySettings( feDisplaySettings );
+			}
 			createSuccessNotice( 'Socials saved successfully!', { type: 'snackbar' } );
 		} catch ( error ) {
 			createErrorNotice( 'Failed to save socials.', { type: 'snackbar' } );
@@ -48,20 +54,7 @@ const App = () => {
 						) }
 
 						{ tab.name === 'display-settings' && (
-							<Card>
-								<CardHeader justify={ 'center' }>
-									<h2>{ tab.title }</h2>
-								</CardHeader>
-								<CardBody></CardBody>
-								<CardFooter>
-									<CardFooter justify="center">
-										<Button
-											__next40pxDefaultSize isPrimary
-											onClick={ null }
-										>Save</Button>
-									</CardFooter>
-								</CardFooter>
-							</Card>
+							<DisplayOnFrontEndSettings title={ tab.title } onSave={ handleSave } />
 						) }
 					</>
 				) }
