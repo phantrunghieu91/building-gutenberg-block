@@ -17,13 +17,13 @@ class JinsRegisteringOptionsPages {
   protected function set_options_pages() {
     $this->options_pages = [
       [
-        'page_title' => __( "Jin's Dev Theme General Settings", 'jins-dev' ),
-        'menu_title' => __( 'Jin\'s Theme Settings','jins-dev' ),
+        'page_title' => __( "Jin's Dev Socials Settings", 'jins-dev' ),
+        'menu_title' => __( 'Jin\'s Socials','jins-dev' ),
         'capability' => 'manage_options',
         'menu_slug'  => 'jins-dev-socials-general-settings',
         'callback'   => [$this, 'render_options_page_template'],
         'icon_url'   => 'dashicons-chart-pie',
-        'position'   => 10
+        'position'   => 25
       ]
     ];
   }
