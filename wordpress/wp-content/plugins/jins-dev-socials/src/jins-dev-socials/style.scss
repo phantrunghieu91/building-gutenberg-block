@@ -6,7 +6,22 @@
  */
 
 .wp-block-jins-dev-jins-dev-socials {
-	background-color: #21759b;
-	color: #fff;
-	padding: 2px;
+	--_icon-size: clamp(2.5rem, 5vw, 3.125rem);
+
+	&.is-selected {
+		border: .125rem solid goldenrod;
+	}
+
+	ul {
+		list-style: none;
+		display: flex;
+		justify-content: var(--_position, flex-start);
+		gap: var(--_space-between-items, .3125rem);
+	}
+
+	img {
+		width: var(--_icon-size);
+		height: var(--_icon-size);
+		border-radius: 50%;
+	}
 }

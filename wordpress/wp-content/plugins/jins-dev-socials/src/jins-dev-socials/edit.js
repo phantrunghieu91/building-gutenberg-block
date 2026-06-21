@@ -1,41 +1,54 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, PanelRow, CheckboxControl } from '@wordpress/components';
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from '@wordpress/block-editor';
+import store from '../store';
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+export default function Edit ( { attributes, setAttributes } ) {
+	const socials = useSelect( select => select( store ).getSocials() );
+
+
+	const { selectedSocialIds } = attributes;
+	const handleSelectSocial = ( value, idx ) => {
+		if ( true === value && !selectedSocialIds ) {
+			setAttributes( { selectedSocialIds: [ idx ] } );
+		}
+		if ( true === value && selectedSocialIds && !selectedSocialIds.includes( idx ) ) {
+			setAttributes( { selectedSocialIds: [ ...selectedSocialIds, idx ] } );
+		}
+		if ( false === value && selectedSocialIds && selectedSocialIds.includes( idx ) ) {
+			setAttributes( { selectedSocialIds: selectedSocialIds.filter( i => i !== idx ) } );
+		}
+	}
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __(
-				'Jins Dev Socials – hello from the editor!',
-				'jins-dev-socials'
-			) }
-		</p>
+		<>
+			<InspectorControls>
+				<PanelBody>
+					{ socials.length > 0 && socials.map( ( social, idx ) => (
+						<CheckboxControl
+							checked={ selectedSocialIds?.includes( idx ) || false }
+							key={ `cb-${ social.label }` }
+							label={ social.label }
+							onChange={ value => handleSelectSocial( value, idx ) }
+						/>
+					) ) }
+				</PanelBody>
+			</InspectorControls>
+			<div { ...useBlockProps() }>
+				{ socials.length > 0 && selectedSocialIds?.length > 0 && (
+					<ul>
+						{ selectedSocialIds.map( (socialIdex ) => (
+							<li>
+								<img src={socials[socialIdex].icon_url} alt={socials[socialIdex].label} />
+							</li>
+						) ) }
+					</ul>
+				) }
+			</div>
+		</>
 	);
 }

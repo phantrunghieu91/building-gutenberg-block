@@ -6,10 +6,15 @@
 	"title": "Jins Dev Socials",
 	"category": "widgets",
 	"icon": "smiley",
-	"description": "Example block scaffolded with Create Block tool.",
+	"description": "Display pre-create socials block",
 	"example": {},
 	"supports": {
 		"html": false
+	},
+	"attributes": {
+		"selectedSocialIds": {
+			"type": "array"
+		}
 	},
 	"textdomain": "jins-dev-socials",
 	"editorScript": "file:./index.js",
