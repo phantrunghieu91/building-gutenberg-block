@@ -9,7 +9,8 @@ import {
 
 import store from '../../store';
 
-import './DisplayOnFrontEndSettings.scss';
+import '../../styles/DisplayOnFrontEndSettings.scss';
+import DisplaySocialsList from '../molecules/DisplaySocialsList';
 
 const DisplayOnFrontEndSettings = ( { title, onSave } ) => {
   const socials = useSelect( ( select ) => select( store ).getSocials() );
@@ -22,28 +23,6 @@ const DisplayOnFrontEndSettings = ( { title, onSave } ) => {
     spacing_with_horizontal_edge: '',
     space_between_items: '',
   } );
-
-  const styleMapping = {
-    top: { bottom: 'auto', center: '50%'},
-    bottom: { bottom: 'var(--_spacing-with-vertical-edge)', center: 'auto'},
-    left: { left: 'var(--_spacing-with-horizontal-edge)', right: 'auto'},
-    right: { left: 'auto', right: 'var(--_spacing-with-horizontal-edge)'},
-    translate_y: { bottom: '0', center: '-50%'},
-    border_radius: { small: '.25rem', medium: '.375rem', large: '.75rem', full: '50%' },
-  };
-
-  const previewStyles = {
-    '--_spacing-with-horizontal-edge': `${feDisplaySettings.spacing_with_horizontal_edge}px`,
-    '--_spacing-with-vertical-edge': `${feDisplaySettings.spacing_with_vertical_edge}px`,
-    '--_space-between-items': `${feDisplaySettings.space_between_items}px`,
-    '--_icon-size': `${ feDisplaySettings.icon_size }px`,
-    '--_icon-border-radius': styleMapping.border_radius[feDisplaySettings.border_corner_style],
-    '--_top': styleMapping.top[feDisplaySettings.vertical_position],
-    '--_bottom': styleMapping.bottom[feDisplaySettings.vertical_position],
-    '--_left': styleMapping.left[feDisplaySettings.horizontal_position],
-    '--_right': styleMapping.right[feDisplaySettings.horizontal_position],
-    '--_translate-y': styleMapping.translate_y[feDisplaySettings.vertical_position],
-  };
 
   const handleChangeSize = ( value, key = 'icon_size' ) => {
     if( value > 0  && value <= 150 ) {
@@ -70,22 +49,7 @@ const DisplayOnFrontEndSettings = ( { title, onSave } ) => {
           { feDisplaySettings.will_display_on_web && (
             <div className="display-settings__options-wrapper">
               <div className="display-settings__preview">
-                { socials.length > 0 && (
-                  <div className="jins-dev-socials" style={ previewStyles }>
-                    <ul className="jins-dev-socials__list">
-                      { socials.map( ( social, idx ) => (
-                        <li className="jins-dev-socials__item" key={ idx }
-                          style={ { width: `${ feDisplaySettings.size }px`, height: `${ feDisplaySettings.size }px`, overflow: 'hidden', } }
-                        >
-                          <a href={ social.url } target="_blank" rel="noopener noreferrer">
-                            <img src={ social.icon_url } alt={ social.label } />
-                          </a>
-                        </li>
-                      ) ) }
-                    </ul>
-                  </div>
-
-                ) }
+                { socials.length > 0 && < DisplaySocialsList /> }
               </div>
               <div className="display-settings__controllers">
                 <fieldset className="display-settings__fields size-spacing">
@@ -137,7 +101,6 @@ const DisplayOnFrontEndSettings = ( { title, onSave } ) => {
                   <legend>Corner rounded style</legend>
                   <ToggleGroupControl
                     __next40pxDefaultSize isBlock
-                    label="Horizontal position"
                     value={ feDisplaySettings.border_corner_style ?? 'full' }
                     onChange={ ( value ) => setFEDisplaySettings( { ...feDisplaySettings, border_corner_style: value } ) }
                   >

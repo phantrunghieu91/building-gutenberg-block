@@ -5,7 +5,7 @@ import { SnackbarList } from '@wordpress/components';
 import { store as noticesStore } from '@wordpress/notices';
 import ManageSocialsTabPanel from './components/organisms/ManageSocialsTabPanel';
 
-import './jins-dev-socials-general-settings.scss';
+import './styles/jins-dev-socials-general-settings.scss';
 
 import store from './store';
 import DisplayOnFrontEndSettings from './components/organisms/DisplayOnFrontEndSettings';

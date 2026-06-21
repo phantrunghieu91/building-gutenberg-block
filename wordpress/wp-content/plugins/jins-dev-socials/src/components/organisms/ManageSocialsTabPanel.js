@@ -2,7 +2,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { TextControl, Button, Card, CardHeader, CardBody, CardFooter } from '@wordpress/components';
 import SocialsTable from '../molecules/SocialsTable';
 import AddNewSocialForm from '../molecules/AddNewSocialForm';
-import './ManageSocialsTabPanel.scss';
+import '../../styles/ManageSocialsTabPanel.scss';
 
 const ManageSocialsTabPanel = ( { title, onSave } ) => {
   return (

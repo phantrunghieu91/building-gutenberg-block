@@ -66,37 +66,4 @@
       transition-property: left, right, top, bottom;
     }
   }
-
-  .jins-dev-socials {
-    --_spacing-with-horizontal-edge: 1.25rem;
-    --_spacing-with-vertical-edge: 1.25rem;
-    --_space-between-items: .625rem;
-    --_icon-size: 1.5rem;
-    --_icon-border-radius: 50%;
-    position: absolute;
-    top: var(--_top, auto);
-    right: var(--_right, var(--_spacing-with-vertical-edge));
-    left: var(--_left, auto);
-    bottom: var(--_bottom, var(--_spacing-with-horizontal-edge));
-    translate: var(--_translate-x, 0) var(--_translate-y, 0);
-
-    &__list {
-      list-style: none;
-      margin-block: 0;
-      display: flex;
-      flex-direction: column;
-      gap: var(--_space-between-items);
-    }
-
-    &__item {
-      margin-block-end: 0;
-
-      img {
-        display: block;
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        border-radius: var(--_icon-border-radius);
-      }
-    }
-  }
 }
