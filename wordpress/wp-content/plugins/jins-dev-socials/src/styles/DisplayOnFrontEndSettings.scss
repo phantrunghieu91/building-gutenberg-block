@@ -66,4 +66,16 @@
       transition-property: left, right, top, bottom;
     }
   }
+
+  .components-base-control {
+    &:has( .components-base-control__help ) {
+      input {
+        border-color: #f00;
+      }
+
+      .components-base-control__help {
+        color: #f00;
+      }
+    }
+  }
 }

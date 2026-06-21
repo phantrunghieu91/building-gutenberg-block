@@ -29,7 +29,8 @@ const DisplayOnFrontEndSettings = ( { title, onSave } ) => {
       setFEDisplaySettings( { ...feDisplaySettings, [key]: value } );
       setHelpTexts({...helpTexts, [key]: ''});
     } else {
-      setHelpTexts({...helpTexts, [key]: 'Invalid value'});
+      setFEDisplaySettings( {...feDisplaySettings, [key]: value < 0 ? 0 : 150 })
+      setHelpTexts({...helpTexts, [key]: 'Must be between 1 and 150'});
     }
   };
 
