@@ -9,6 +9,7 @@ module.exports = async ( env ) => {
     entry: {
       ...entry,
       'jins-dev-socials-general-settings': path.resolve( __dirname, 'src/jins-dev-socials-general-settings.js' ),
+      'jins-dev-socials-front-end': path.resolve( __dirname, 'src/jins-dev-socials-front-end.js' ),
     },
   };
 };

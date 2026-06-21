@@ -1,9 +1,14 @@
 import { useSelect } from '@wordpress/data';
 import store from '../../store';
 
+const isOnFrontEnd = typeof jins_dev_socials !== undefined;
+
 const DisplaySocialsList = () => {
-  const socials = useSelect( select => select( store ) ).getSocials();
-  const feDisplaySettings = useSelect( select => select( store ) ).getFEDisplaySettings();
+  const socialsFromStore = useSelect( select => select( store ).getSocials() );
+  const feDisplaySettingsFromStore = useSelect( select => select( store ).getFEDisplaySettings() );
+
+  const socials = isOnFrontEnd ? jins_dev_socials.socials : socialsFromStore;
+  const feDisplaySettings = isOnFrontEnd ? jins_dev_socials.feDisplaySettings : feDisplaySettingsFromStore;
 
   const styleMapping = {
     top: { bottom: 'auto', center: '50%' },

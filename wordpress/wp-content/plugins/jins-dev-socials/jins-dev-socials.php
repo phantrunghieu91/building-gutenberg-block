@@ -29,6 +29,19 @@ function jins_dev_socials_block_init() {
 function jins_dev_socials_display_on_website() {
   $settings = get_option( 'jins_dev_socials_fe_display_settings' );
   if( isset( $settings['will_display_on_web'] ) && true === $settings['will_display_on_web'] ) {
+    add_action( 'wp_enqueue_scripts', function() {
+      $asset_file = include_once PLUGIN_JINS_DEV_SOCIALS_PATH . "/build/jins-dev-socials-front-end.asset.php";
+      wp_enqueue_script( 'jins-dev-socials-front-end',
+        PLUGIN_JINS_DEV_SOCIALS_URI . '/build/jins-dev-socials-front-end.js',
+        $asset_file['dependencies'],
+        $asset_file['version'],
+        true
+      );
+      wp_localize_script('jins-dev-socials-front-end', 'jins_dev_socials', [
+        'socials' => get_option('jins_dev_socials', []),
+        'feDisplaySettings' => get_option('jins_dev_socials_fe_display_settings', []),
+      ]);
+    } );
     add_action( 'wp_footer', function() {
       echo '<div id="jins-dev-socials-root"></div>';
     } );
@@ -42,8 +55,8 @@ function plugin_activate() {
 register_activation_hook( __FILE__, 'plugin_activate' );
 
 function plugin_deactivate() {
-	remove_action('init', 'jins_dev_socials_block_init');
-	remove_action('init', 'jins_dev_socials_display_on_website');
+  remove_action( 'init', 'jins_dev_socials_block_init' );
+  remove_action( 'init', 'jins_dev_socials_display_on_website' );
   flush_rewrite_rules();
 }
 register_deactivation_hook( __FILE__, 'plugin_deactivate' );
