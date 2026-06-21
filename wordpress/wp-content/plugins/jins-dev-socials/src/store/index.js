@@ -13,7 +13,7 @@ const DEFAULT_STATE = {
     vertical_position: 'bottom',
     icon_size: 24,
     spacing_with_horizontal_edge: 20,
-    spacing_with_horizontal_edge: 20,
+    spacing_with_vertical_edge: 20,
     space_between_items: 10,
     border_corner_style: 'full', // small, medium, large, full
   },
