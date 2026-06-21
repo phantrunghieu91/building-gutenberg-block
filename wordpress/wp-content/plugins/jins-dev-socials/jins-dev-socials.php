@@ -35,13 +35,14 @@ function jins_dev_socials_display_on_website() {
   }
 }
 add_action( 'init', 'jins_dev_socials_display_on_website' );
+add_action( 'init', 'jins_dev_socials_block_init' );
 function plugin_activate() {
-  add_action( 'init', 'jins_dev_socials_block_init' );
   flush_rewrite_rules();
 }
 register_activation_hook( __FILE__, 'plugin_activate' );
 
 function plugin_deactivate() {
+	remove_action('init', 'jins_dev_socials_block_init');
 	remove_action('init', 'jins_dev_socials_display_on_website');
   flush_rewrite_rules();
 }
