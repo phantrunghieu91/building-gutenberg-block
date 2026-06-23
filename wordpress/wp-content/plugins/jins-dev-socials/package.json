@@ -17,7 +17,8 @@
 	"dependencies": {
 		"@wordpress/block-editor": "latest",
 		"@wordpress/blocks": "latest",
-		"@wordpress/i18n": "latest"
+		"@wordpress/i18n": "latest",
+		"zod": "^4.4.3"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^32.4.0"
