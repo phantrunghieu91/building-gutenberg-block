@@ -1,7 +1,7 @@
 import { useSelect } from '@wordpress/data';
 import store from '../../store';
 
-const isOnFrontEnd = typeof jins_dev_socials !== undefined;
+const isOnFrontEnd = typeof jins_dev_socials !== 'undefined';
 
 const DisplaySocialsList = () => {
   const socialsFromStore = useSelect( select => select( store ).getSocials() );
