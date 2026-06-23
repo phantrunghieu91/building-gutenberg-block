@@ -10,18 +10,15 @@ import './editor.scss';
 export default function Edit ( { attributes, setAttributes } ) {
 	const socials = useSelect( select => select( store ).getSocials() );
 
+	const { selectedSocials } = attributes;
+	const initializeSelectedSocials = socials.length > 0 && ( selectedSocials?.length === socials.length ) 
+		? selectedSocials 
+		: new Array( socials.length ).fill( false );
 
-	const { selectedSocialIds } = attributes;
 	const handleSelectSocial = ( value, idx ) => {
-		if ( true === value && !selectedSocialIds ) {
-			setAttributes( { selectedSocialIds: [ idx ] } );
-		}
-		if ( true === value && selectedSocialIds && !selectedSocialIds.includes( idx ) ) {
-			setAttributes( { selectedSocialIds: [ ...selectedSocialIds, idx ] } );
-		}
-		if ( false === value && selectedSocialIds && selectedSocialIds.includes( idx ) ) {
-			setAttributes( { selectedSocialIds: selectedSocialIds.filter( i => i !== idx ) } );
-		}
+		setAttributes( {
+			selectedSocials: initializeSelectedSocials.map( ( isSelected, selectedIdx ) => selectedIdx === idx ? value : isSelected ),
+		} );
 	}
 
 	return (
@@ -30,7 +27,7 @@ export default function Edit ( { attributes, setAttributes } ) {
 				<PanelBody>
 					{ socials.length > 0 && socials.map( ( social, idx ) => (
 						<CheckboxControl
-							checked={ selectedSocialIds?.includes( idx ) || false }
+							checked={ selectedSocials && selectedSocials[ idx ] || false }
 							key={ `cb-${ social.label }` }
 							label={ social.label }
 							onChange={ value => handleSelectSocial( value, idx ) }
@@ -39,11 +36,11 @@ export default function Edit ( { attributes, setAttributes } ) {
 				</PanelBody>
 			</InspectorControls>
 			<div { ...useBlockProps() }>
-				{ socials.length > 0 && selectedSocialIds?.length > 0 && (
+				{ socials.length > 0 && selectedSocials?.length > 0 && (
 					<ul>
-						{ selectedSocialIds.map( (socialIdex ) => (
-							<li>
-								<img src={socials[socialIdex].icon_url} alt={socials[socialIdex].label} />
+						{ selectedSocials.map( ( isSelected, socialIndex ) => (
+							isSelected && <li>
+								<img src={ socials[ socialIndex ].icon_url } alt={ socials[ socialIndex ].label } />
 							</li>
 						) ) }
 					</ul>

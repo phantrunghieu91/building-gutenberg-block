@@ -9,20 +9,21 @@
  *
  * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
  */
-$socials = get_option('jins_dev_socials', []);
-$default_style_settings = get_option( 'jins_dev_socials_fe_display_settings', []);
-$selected_socials_ids = $attributes['selectedSocialIds'] ?? [];
-if( empty($selected_socials_ids) ) {
-	return;
+$socials                = get_option( 'jins_dev_socials', [] );
+$default_style_settings = get_option( 'jins_dev_socials_fe_display_settings', [] );
+$selected_socials       = $attributes['selectedSocials'] ?? [];
+if( empty( $selected_socials ) ) {
+  return;
 }
 ?>
 <div <?php echo get_block_wrapper_attributes(); ?> >
 	<ul>
-		<?php foreach( $selected_socials_ids as $social_id ) : 
-			$social = $socials[$social_id];
-		?>
+		<?php foreach( $selected_socials as $idx => $is_selected ) :
+		  if( !$is_selected ) continue;
+		  $social = $socials[$idx];
+		  ?>
 			<li>
-				<img src="<?= esc_url( $social['icon_url']) ?>" alt="<?= esc_attr( $social['label']) ?>">
+				<img src="<?= esc_url( $social['icon_url'] ) ?>" alt="<?= esc_attr( $social['label'] ) ?>">
 			</li>
 		<?php endforeach ?>
 	</ul>

@@ -5,5 +5,11 @@
  */
 
 .wp-block-jins-dev-jins-dev-socials {
-	border: 1px dotted #f00;
+	&.is-selected {
+		border: .125rem solid goldenrod;
+	}
+
+	&:not(:has(li:nth-child(1))) {
+		padding-block: 2rem;
+	}
 }

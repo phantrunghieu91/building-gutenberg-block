@@ -12,8 +12,9 @@
 		"html": false
 	},
 	"attributes": {
-		"selectedSocialIds": {
-			"type": "array"
+		"selectedSocials": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"textdomain": "jins-dev-socials",

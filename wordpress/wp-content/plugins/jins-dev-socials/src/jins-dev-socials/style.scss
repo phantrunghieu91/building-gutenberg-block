@@ -8,10 +8,6 @@
 .wp-block-jins-dev-jins-dev-socials {
 	--_icon-size: clamp(2.5rem, 5vw, 3.125rem);
 
-	&.is-selected {
-		border: .125rem solid goldenrod;
-	}
-
 	ul {
 		list-style: none;
 		display: flex;
